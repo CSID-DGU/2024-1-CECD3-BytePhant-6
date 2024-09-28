@@ -35,4 +35,11 @@ class ChatViewModel : ViewModel() {
             }
         }
     }
+    fun updateInputText(text: String) {
+        _uiState.update { current ->
+            current.copy(
+                inputText = text
+            )
+        }
+    }
 }
