@@ -5,8 +5,8 @@ plugins {
 }
 
 android {
+    compileSdk = 34
     namespace = "com.bytephant.senior_care"
-    compileSdkVersion(rootProject.extra["compileSdkVersion"] as Int)
 
     defaultConfig {
         applicationId = "com.bytephant.senior_care"
@@ -48,6 +48,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -75,4 +76,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    // HTTP protocol
+    // HTTP and Serialization with Retrofit and OkHttp
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.okhttp3.logging.interceptor)
+    implementation(libs.kotlinx.serialization.json)
 }
