@@ -6,8 +6,11 @@ import com.bytephant.senior_care.domain.replier.MockReplier
 import com.bytephant.senior_care.domain.replier.NetworkReplier
 import com.bytephant.senior_care.domain.replier.Replier
 import com.bytephant.senior_care.service.database.SeniorCareDatabase
+import com.bytephant.senior_care.service.location.GmsLocationClient
+import com.bytephant.senior_care.service.location.LocationClient
 import com.bytephant.senior_care.service.network.RetrofitConfig
 import com.bytephant.senior_care.service.network.api.MessageAPI
+import com.google.android.gms.location.LocationServices
 
 class Container(
     private val context : Context
@@ -24,5 +27,12 @@ class Container(
         SeniorCareDatabase::class.java,
         "senior_care.db"
     ).build()
+
+    val locationClient : LocationClient by lazy {
+        GmsLocationClient(
+            context = context,
+            LocationServices.getFusedLocationProviderClient(context)
+        )
+    }
 
 }
