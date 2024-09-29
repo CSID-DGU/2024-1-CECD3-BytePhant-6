@@ -86,4 +86,9 @@ dependencies {
 
     // GPS library
     implementation(libs.play.services.location)
+
+    // Local Database
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }
