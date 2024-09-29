@@ -1,6 +1,6 @@
 package com.bytephant.senior_care.domain.replier
 
-import com.bytephant.senior_care.data.BaseMessage
+import com.bytephant.senior_care.domain.data.BaseMessage
 
 interface Replier {
     suspend fun initDialogue() : BaseMessage

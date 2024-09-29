@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.bytephant.senior_care.data.BaseMessage
+import com.bytephant.senior_care.domain.data.BaseMessage
 
 @Composable
 fun ChatBubbleList(listState: LazyListState, messages: List<BaseMessage>) {

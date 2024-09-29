@@ -2,7 +2,7 @@ package com.bytephant.senior_care.service.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.bytephant.senior_care.data.UserLocationStatus
+import com.bytephant.senior_care.domain.data.UserLocationStatus
 import java.time.LocalDateTime
 
 @Entity

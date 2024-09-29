@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.bytephant.senior_care.application.SeniorCareApplication
-import com.bytephant.senior_care.data.BaseMessage
+import com.bytephant.senior_care.domain.data.BaseMessage
 import com.bytephant.senior_care.domain.replier.Replier
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

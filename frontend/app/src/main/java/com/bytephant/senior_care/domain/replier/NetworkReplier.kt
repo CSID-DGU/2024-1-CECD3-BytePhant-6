@@ -1,6 +1,6 @@
 package com.bytephant.senior_care.domain.replier
 
-import com.bytephant.senior_care.data.BaseMessage
+import com.bytephant.senior_care.domain.data.BaseMessage
 import com.bytephant.senior_care.service.network.api.MessageAPI
 import com.bytephant.senior_care.service.network.api.ReplyReq
 import java.time.LocalDateTime
