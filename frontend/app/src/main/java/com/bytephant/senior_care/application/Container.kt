@@ -1,9 +1,11 @@
 package com.bytephant.senior_care.application
 
 import android.content.Context
+import androidx.room.Room
 import com.bytephant.senior_care.domain.replier.MockReplier
 import com.bytephant.senior_care.domain.replier.NetworkReplier
 import com.bytephant.senior_care.domain.replier.Replier
+import com.bytephant.senior_care.service.database.SeniorCareDatabase
 import com.bytephant.senior_care.service.network.RetrofitConfig
 import com.bytephant.senior_care.service.network.api.MessageAPI
 
@@ -17,5 +19,10 @@ class Container(
 //        NetworkReplier(messageAPI)
         MockReplier()
     }
+    val database = Room.databaseBuilder(
+        context = context,
+        SeniorCareDatabase::class.java,
+        "senior_care.db"
+    ).build()
 
 }
