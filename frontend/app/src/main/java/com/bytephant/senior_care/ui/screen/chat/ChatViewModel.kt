@@ -1,7 +1,12 @@
 package com.bytephant.senior_care.ui.screen.chat
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.bytephant.senior_care.application.SeniorCareApplication
 import com.bytephant.senior_care.data.BaseMessage
 import com.bytephant.senior_care.domain.replier.Replier
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +48,17 @@ class ChatViewModel(
             current.copy(
                 inputText = text
             )
+        }
+    }
+    companion object {
+        val Factory : ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as SeniorCareApplication)
+                val replier = application.container.replier
+                ChatViewModel(
+                    replier = replier
+                )
+            }
         }
     }
 }

@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,6 +18,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bytephant.senior_care.ui.routing.AppScreenType
 import com.bytephant.senior_care.ui.routing.TopBar
+import com.bytephant.senior_care.ui.screen.chat.ChatScreen
+import com.bytephant.senior_care.ui.screen.chat.ChatViewModel
 import com.bytephant.senior_care.ui.theme.SeniorcareTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,6 +33,7 @@ class MainActivity : ComponentActivity() {
                 val currentScreen = AppScreenType.valueOf(
                     backStackEntry?.destination?.route ?: AppScreenType.CHAT.name
                 )
+                val chatViewModel: ChatViewModel= viewModel(factory = ChatViewModel.Factory)
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
@@ -41,7 +46,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = AppScreenType.CHAT.name) {
-
+                            ChatScreen(chatViewModel)
                         }
                     }
                 }
