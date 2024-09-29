@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = AppScreenType.CHAT.name) {
-                            ChatScreen(chatViewModel)
+                            ChatScreen(chatViewModel, Modifier.padding(innerPadding))
                         }
                     }
                 }

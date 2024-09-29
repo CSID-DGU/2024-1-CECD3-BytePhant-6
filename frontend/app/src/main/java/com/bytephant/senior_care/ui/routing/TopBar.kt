@@ -21,7 +21,7 @@ fun TopBar(
             .fillMaxWidth()
             .statusBarsPadding(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.Center
     ){
         Column(
             modifier = Modifier,
