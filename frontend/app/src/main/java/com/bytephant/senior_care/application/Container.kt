@@ -1,6 +1,7 @@
 package com.bytephant.senior_care.application
 
 import android.content.Context
+import com.bytephant.senior_care.domain.replier.MockReplier
 import com.bytephant.senior_care.domain.replier.NetworkReplier
 import com.bytephant.senior_care.domain.replier.Replier
 import com.bytephant.senior_care.service.network.RetrofitConfig
@@ -13,7 +14,8 @@ class Container(
         RetrofitConfig.retrofit.create(MessageAPI::class.java)
     }
     val replier : Replier by lazy {
-        NetworkReplier(messageAPI)
+//        NetworkReplier(messageAPI)
+        MockReplier()
     }
 
 }
