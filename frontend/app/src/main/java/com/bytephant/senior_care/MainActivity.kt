@@ -7,10 +7,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.bytephant.senior_care.ui.routing.AppScreenType
+import com.bytephant.senior_care.ui.routing.TopBar
 import com.bytephant.senior_care.ui.theme.SeniorcareTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +24,28 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SeniorcareTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                val navController : NavHostController = rememberNavController()
+                val backStackEntry by navController.currentBackStackEntryAsState()
+                val currentScreen = AppScreenType.valueOf(
+                    backStackEntry?.destination?.route ?: AppScreenType.CHAT.name
+                )
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = {
+                        TopBar(currentScreenType = currentScreen)
+                    }
+                ) { innerPadding ->
+                    NavHost(
+                        navController = navController,
+                        startDestination = AppScreenType.CHAT.name,
                         modifier = Modifier.padding(innerPadding)
-                    )
+                    ) {
+                        composable(route = AppScreenType.CHAT.name) {
+
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SeniorcareTheme {
-        Greeting("Android")
     }
 }
