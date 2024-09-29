@@ -83,4 +83,7 @@ dependencies {
     implementation(libs.retrofit2.converter.gson)
     implementation(libs.okhttp3.logging.interceptor)
     implementation(libs.kotlinx.serialization.json)
+
+    // GPS library
+    implementation(libs.play.services.location)
 }
