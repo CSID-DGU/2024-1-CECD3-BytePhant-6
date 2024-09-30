@@ -1,15 +1,16 @@
 package com.bytephant.senior_care
 
+import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -23,8 +24,19 @@ import com.bytephant.senior_care.ui.screen.chat.ChatViewModel
 import com.bytephant.senior_care.ui.theme.SeniorcareTheme
 
 class MainActivity : ComponentActivity() {
+    fun requestPermissions() {
+        val neededPermissions = arrayOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+            Manifest.permission.INTERNET,
+        )
+        ActivityCompat.requestPermissions(this, neededPermissions, 1)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestPermissions()
         enableEdgeToEdge()
         setContent {
             SeniorcareTheme {
