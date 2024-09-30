@@ -13,5 +13,5 @@ data class UserLocation(
     val status: UserLocationStatus,
 
     @PrimaryKey(autoGenerate = true)
-    val id : Long?
+    val id : Long = 0
 )
