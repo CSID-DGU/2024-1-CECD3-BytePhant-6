@@ -22,6 +22,18 @@ class ChatViewModel(
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState = _uiState.asStateFlow()
 
+    fun initMessage() {
+        viewModelScope.launch {
+            val reply = replier.initDialogue()
+            _uiState.update { currentState->
+                currentState.copy(
+                    messages = currentState.messages + reply,
+                    isSending = false,
+                )
+            }
+        }
+    }
+
     fun sendQuestion(sentence: String) {
         val userMessage = BaseMessage(sentence)
 
