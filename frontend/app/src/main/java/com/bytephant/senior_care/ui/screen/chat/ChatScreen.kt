@@ -39,7 +39,7 @@ fun ChatScreen(
     val focusRequester = remember { FocusRequester() }
     val listState = rememberLazyListState()
 
-    LaunchedEffect(uiState.messages.size, listState.isScrollInProgress) {
+    LaunchedEffect(uiState.messages.size) {
         if (uiState.messages.isNotEmpty()) {
             listState.animateScrollToItem(uiState.messages.size - 1)
         }
@@ -51,8 +51,7 @@ fun ChatScreen(
     }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
+        modifier = Modifier
             .imePadding()
     ) {
         Column(

@@ -19,14 +19,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Seniorcare"
+        android:usesCleartextTraffic="true"
         android:name=".application.SeniorCareApplication"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Seniorcare">
-            <intent-filter>
+            android:theme="@style/Theme.Seniorcare"
+            android:windowSoftInputMode="adjustResize">
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
