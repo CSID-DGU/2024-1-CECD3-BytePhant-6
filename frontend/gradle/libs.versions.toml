@@ -20,6 +20,7 @@ playServicesLocation = "21.3.0"
 retrofit = "2.9.0"
 retrofitVersion = "2.9.0"
 navigationCompose = "2.8.1"
+roomKtx = "2.6.1"
 roomRuntime = "2.6.1"
 workRuntimeKtx = "2.9.1"
 
