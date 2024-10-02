@@ -23,6 +23,11 @@ class ChatViewModel(
     val uiState = _uiState.asStateFlow()
 
     fun initMessage() {
+        _uiState.update { current ->
+            current.copy(
+                isSending = true
+            )
+        }
         viewModelScope.launch {
             val reply = replier.initDialogue()
             _uiState.update { currentState->
@@ -41,7 +46,8 @@ class ChatViewModel(
 
             currentState.copy(
                 messages = currentState.messages + userMessage,
-                inputText = ""
+                inputText = "",
+                isSending = true
             )
         }
         viewModelScope.launch {
@@ -50,6 +56,7 @@ class ChatViewModel(
                 _uiState.update { currentState ->
                     currentState.copy(
                         messages = currentState.messages + replyMessage,
+                        isSending = false
                     )
                 }
             }
