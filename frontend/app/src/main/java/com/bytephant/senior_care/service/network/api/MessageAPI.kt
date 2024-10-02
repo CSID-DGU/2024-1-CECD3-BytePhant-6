@@ -12,6 +12,11 @@ data class InitMessageRes(
 )
 
 @Serializable
+data class InitMessageReq(
+    val question : String
+)
+
+@Serializable
 data class ReplyReq(
     val message : String,
     val datetime: LocalDateTime
@@ -24,8 +29,8 @@ data class ReplyRes(
 )
 
 interface MessageAPI {
-    @GET("init-message")
-    suspend fun getInitMessage() : InitMessageRes
-    @POST("reply")
+    @POST("conversation-first")
+    suspend fun getInitMessage(@Body req: InitMessageReq) : InitMessageRes
+    @POST("conversation-second")
     suspend fun getReply(@Body req: ReplyReq) : ReplyRes
 }
