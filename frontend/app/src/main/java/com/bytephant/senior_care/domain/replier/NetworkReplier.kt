@@ -18,6 +18,6 @@ class NetworkReplier(
 
     override suspend fun reply(message: String): BaseMessage {
         val response = messageAPI.getReply(ReplyReq(message, LocalDateTime.now()))
-        return BaseMessage(response.message)
+        return BaseMessage(response.message, false)
     }
 }
