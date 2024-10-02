@@ -1,6 +1,7 @@
 package com.bytephant.senior_care
 
 import android.Manifest
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.bytephant.senior_care.application.ADBCustomReceiver
 import com.bytephant.senior_care.background.enrollLocationSaver
 import com.bytephant.senior_care.ui.routing.AppScreenType
 import com.bytephant.senior_care.ui.routing.TopBar
@@ -25,6 +27,8 @@ import com.bytephant.senior_care.ui.screen.chat.ChatViewModel
 import com.bytephant.senior_care.ui.theme.SeniorcareTheme
 
 class MainActivity : ComponentActivity() {
+    private val receiver: ADBCustomReceiver = ADBCustomReceiver()
+
     fun requestPermissions() {
         val neededPermissions = arrayOf(
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -35,10 +39,18 @@ class MainActivity : ComponentActivity() {
         ActivityCompat.requestPermissions(this, neededPermissions, 1)
     }
 
+    fun enrollADBReceiver() {
+        registerReceiver(
+            receiver,
+            IntentFilter("com.example.action.INIT_TALKING"),
+            RECEIVER_EXPORTED
+        )
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestPermissions()
         enrollLocationSaver(application)
+        enrollADBReceiver()
         enableEdgeToEdge()
         setContent {
             SeniorcareTheme {
