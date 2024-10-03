@@ -19,12 +19,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bytephant.senior_care.application.ADBCustomReceiver
+import com.bytephant.senior_care.application.SeniorCareApplication
 import com.bytephant.senior_care.background.enrollLocationSaver
+import com.bytephant.senior_care.domain.data.UserLocationStatus
 import com.bytephant.senior_care.ui.routing.AppScreenType
 import com.bytephant.senior_care.ui.routing.TopBar
 import com.bytephant.senior_care.ui.screen.chat.ChatScreen
 import com.bytephant.senior_care.ui.screen.chat.ChatViewModel
 import com.bytephant.senior_care.ui.theme.SeniorcareTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     private val receiver: ADBCustomReceiver = ADBCustomReceiver()
@@ -51,6 +56,10 @@ class MainActivity : ComponentActivity() {
         requestPermissions()
         enrollLocationSaver(application)
         enrollADBReceiver()
+        val locationRepository = (application as SeniorCareApplication).container.locationRepository
+        CoroutineScope(Dispatchers.IO).launch {
+            locationRepository.saveLocation(0.0, 0.0, UserLocationStatus.HOME)
+        }
         enableEdgeToEdge()
         setContent {
             SeniorcareTheme {
