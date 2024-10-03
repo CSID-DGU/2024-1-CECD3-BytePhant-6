@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.bytephant.senior_care.domain.replier.MockReplier
 import com.bytephant.senior_care.domain.replier.NetworkReplier
 import com.bytephant.senior_care.domain.replier.Replier
+import com.bytephant.senior_care.domain.repository.LocationRepository
+import com.bytephant.senior_care.domain.repository.RoomLocationRepository
 import com.bytephant.senior_care.service.database.SeniorCareDatabase
 import com.bytephant.senior_care.service.location.GmsLocationClient
 import com.bytephant.senior_care.service.location.LocationClient
@@ -27,6 +29,10 @@ class Container(
         SeniorCareDatabase::class.java,
         "senior_care.db"
     ).build()
+
+    val locationRepository : LocationRepository by lazy {
+        RoomLocationRepository(database.locationDao)
+    }
 
     val locationClient : LocationClient by lazy {
         GmsLocationClient(

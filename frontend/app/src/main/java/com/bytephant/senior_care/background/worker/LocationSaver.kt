@@ -16,16 +16,13 @@ class LocationSaver(
     override suspend fun doWork(): Result {
         val container = (context.applicationContext as SeniorCareApplication).container
         val locationClient = container.locationClient
-        val database = container.database
+        val locationRepository = container.locationRepository
         try {
-            val location = locationClient.getCurrentLocation().collect { location ->
-                database.locationDao.insertLocation(
-                    UserLocation(
-                        location.longitude,
-                        location.latitude,
-                        LocalDateTime.now(),
-                        UserLocationStatus.HOME,
-                    )
+            locationClient.getCurrentLocation().collect { location ->
+                locationRepository.saveLocation(
+                    location.longitude,
+                    location.latitude,
+                    UserLocationStatus.HOME
                 )
             }
         } catch (e: Exception) {
