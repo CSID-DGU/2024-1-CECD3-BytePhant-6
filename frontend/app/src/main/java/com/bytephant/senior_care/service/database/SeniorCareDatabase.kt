@@ -3,6 +3,7 @@ package com.bytephant.senior_care.service.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.bytephant.senior_care.service.database.dao.CoefficientDao
 import com.bytephant.senior_care.service.database.dao.LocationDao
 import com.bytephant.senior_care.service.database.entity.UserLocation
 
@@ -10,4 +11,5 @@ import com.bytephant.senior_care.service.database.entity.UserLocation
 @TypeConverters(Converters::class)
 abstract class SeniorCareDatabase : RoomDatabase() {
     abstract val locationDao: LocationDao
+    abstract val coefficientDao : CoefficientDao
 }
