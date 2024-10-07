@@ -3,6 +3,7 @@ package com.bytephant.senior_care
 import android.Manifest
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,15 +13,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.bytephant.senior_care.application.ADBCustomReceiver
 import com.bytephant.senior_care.application.SeniorCareApplication
 import com.bytephant.senior_care.background.enrollLocationSaver
+import com.bytephant.senior_care.background.worker.LocationSaver
 import com.bytephant.senior_care.domain.data.UserLocationStatus
 import com.bytephant.senior_care.ui.routing.AppScreenType
 import com.bytephant.senior_care.ui.routing.TopBar
@@ -39,6 +45,7 @@ class MainActivity : ComponentActivity() {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+            Manifest.permission.FOREGROUND_SERVICE_LOCATION,
             Manifest.permission.INTERNET,
         )
         ActivityCompat.requestPermissions(this, neededPermissions, 1)
@@ -54,12 +61,41 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestPermissions()
+        val workRequest = OneTimeWorkRequest
+            .Builder(LocationSaver::class.java)
+            .build()
+        WorkManager.getInstance(this).enqueue(workRequest)
+        WorkManager.getInstance(this)
+            .getWorkInfoByIdLiveData(workRequest.id)
+            .observe(this, Observer { workInfo ->
+                if (workInfo != null && workInfo.state.isFinished) {
+                    when (workInfo.state) {
+                        WorkInfo.State.SUCCEEDED -> {
+                            val outputData = workInfo.outputData
+                            val resultData = outputData.getString("RESULT_DATA")
+                            Log.d("WorkManager", "작업 성공: $resultData")
+                        }
+                        WorkInfo.State.FAILED -> {
+                            val outputData = workInfo.outputData
+                            val errorMessage = outputData.getString("ERROR_MESSAGE")
+                            val init = outputData.getString("init")
+                            val permission = outputData.getString("permissions")
+                            val location = outputData.getString("location")
+                            Log.e("WorkManager", "작업 실패:\n" +
+                                    "초기화 : $init\n" +
+                                    "권한: $permission\n" +
+                                    "위치 : $location\n" +
+                                    "message: $errorMessage")
+                        }
+                        else -> {
+                            // 다른 상태 처리
+                        }
+                    }
+                }
+            })
+
         enrollLocationSaver(application)
         enrollADBReceiver()
-        val locationRepository = (application as SeniorCareApplication).container.locationRepository
-        CoroutineScope(Dispatchers.IO).launch {
-            locationRepository.saveLocation(0.0, 0.0, UserLocationStatus.HOME)
-        }
         enableEdgeToEdge()
         setContent {
             SeniorcareTheme {
@@ -87,5 +123,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
     }
 }
