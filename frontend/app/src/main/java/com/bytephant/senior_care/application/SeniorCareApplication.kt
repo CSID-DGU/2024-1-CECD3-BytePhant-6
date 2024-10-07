@@ -19,4 +19,15 @@ class SeniorCareApplication : Application(),  Configuration.Provider {
         get() = Configuration.Builder()
             .setMinimumLoggingLevel(Log.VERBOSE) // 로그 레벨 설정
             .build()
+
+    companion object {
+        fun requestLocationPermissions(context: Context) {
+            val neededPermissions = arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                Manifest.permission.INTERNET,
+            )
+        }
+    }
 }
