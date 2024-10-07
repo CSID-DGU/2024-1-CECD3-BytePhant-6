@@ -10,13 +10,15 @@ import kotlinx.coroutines.flow.Flow
 interface LocationClient {
     fun getCurrentLocation(): Flow<Location>
     fun getLocationUpdates(interval: Long): Flow<Location>
-    class LocationException(message: String) : Exception()
+    class LocationException(message: String) : Exception(message)
     companion object {
         fun checkPermission(context: Context) : Boolean {
             return (
                 ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED
             )
         }
