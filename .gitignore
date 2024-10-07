@@ -235,6 +235,6 @@ $RECYCLE.BIN/
 reference/
 db/
 data/
-__pycache__/
+prompts.py
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,python,macos
