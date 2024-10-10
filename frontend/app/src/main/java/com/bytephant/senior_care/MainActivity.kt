@@ -111,7 +111,11 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
-                        TopBar(currentScreenType = currentScreen)
+                        TopBar(
+                            currentScreenType = currentScreen,
+                            canNavigateBack = navController.previousBackStackEntry != null,
+                            navigateUp ={ navController.navigateUp() }
+                        )
                     }
                 ) { innerPadding ->
                     NavHost(
