@@ -32,6 +32,8 @@ import com.bytephant.senior_care.ui.routing.AppScreenType
 import com.bytephant.senior_care.ui.routing.TopBar
 import com.bytephant.senior_care.ui.screen.chat.ChatScreen
 import com.bytephant.senior_care.ui.screen.chat.ChatViewModel
+import com.bytephant.senior_care.ui.screen.home.HomeScreen
+import com.bytephant.senior_care.ui.screen.home.HomeViewModel
 import com.bytephant.senior_care.ui.theme.SeniorcareTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -105,6 +107,7 @@ class MainActivity : ComponentActivity() {
                     backStackEntry?.destination?.route ?: AppScreenType.CHAT.name
                 )
                 val chatViewModel: ChatViewModel= viewModel(factory = ChatViewModel.Factory)
+                val homeViewModel: HomeViewModel= viewModel(factory = HomeViewModel.Factory)
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
@@ -113,11 +116,17 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = AppScreenType.CHAT.name,
+                        startDestination = AppScreenType.HOME.name,
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = AppScreenType.CHAT.name) {
                             ChatScreen(chatViewModel)
+                        }
+                        composable(route= AppScreenType.HOME.name) {
+                            HomeScreen(
+                                homeViewModel,
+                                { navController.navigate(AppScreenType.CHAT.name) }
+                            )
                         }
                     }
                 }
