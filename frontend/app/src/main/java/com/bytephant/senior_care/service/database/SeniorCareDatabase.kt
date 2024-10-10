@@ -5,9 +5,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.bytephant.senior_care.service.database.dao.CoefficientDao
 import com.bytephant.senior_care.service.database.dao.LocationDao
+import com.bytephant.senior_care.service.database.entity.Coefficient
 import com.bytephant.senior_care.service.database.entity.UserLocation
 
-@Database(entities = [UserLocation::class], version = 1)
+@Database(entities = [UserLocation::class, Coefficient::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class SeniorCareDatabase : RoomDatabase() {
     abstract val locationDao: LocationDao
