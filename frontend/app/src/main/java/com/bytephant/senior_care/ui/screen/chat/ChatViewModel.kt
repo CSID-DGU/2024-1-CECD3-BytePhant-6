@@ -1,5 +1,6 @@
 package com.bytephant.senior_care.ui.screen.chat
 
+import android.speech.tts.TextToSpeech
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ChatViewModel(
+    private val tts: TextToSpeech,
     private val replier : Replier
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ChatUiState())
@@ -36,6 +38,7 @@ class ChatViewModel(
                     isSending = false,
                 )
             }
+            tts.speak(reply.message, TextToSpeech.QUEUE_FLUSH, null, "");
         }
     }
 
@@ -52,6 +55,7 @@ class ChatViewModel(
         }
         viewModelScope.launch {
             val replyMessage : BaseMessage = replier.reply(sentence)
+            tts.speak(replyMessage.message, TextToSpeech.QUEUE_FLUSH, null, "");
             withContext(Dispatchers.Main) {
                 _uiState.update { currentState ->
                     currentState.copy(
@@ -74,8 +78,10 @@ class ChatViewModel(
             initializer {
                 val application = (this[APPLICATION_KEY] as SeniorCareApplication)
                 val replier = application.container.replier
+                val tts = application.container.ttsService
                 ChatViewModel(
-                    replier = replier
+                    replier = replier,
+                    tts = tts
                 )
             }
         }
