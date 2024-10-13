@@ -5,6 +5,7 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.room.Room
+import com.bytephant.senior_care.domain.ChatbotAgent
 import com.bytephant.senior_care.domain.data.DialogueHolder
 import com.bytephant.senior_care.domain.listener.android.AndroidVoiceRecognizer
 import com.bytephant.senior_care.domain.receiver.MessageReceiver
@@ -56,16 +57,17 @@ class Container (
         val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
         AndroidVoiceRecognizer(context, speechRecognizer)
     }
+    private val speaker : Speaker by lazy { AndroidSpeaker.getInstance(context) };
 
     val messageReceiver : MessageReceiver by lazy {
         MessageReceiverImpl(voiceRecognizer)
     }
 
-    val speaker : Speaker by lazy { AndroidSpeaker.getInstance(context) };
-
     val dialogueHolder : DialogueHolder by lazy {
         DialogueHolder()
     }
 
-
+    val chatBotAgent : ChatbotAgent by lazy {
+        ChatbotAgent(dialogueHolder, replier, speaker)
+    }
 }
