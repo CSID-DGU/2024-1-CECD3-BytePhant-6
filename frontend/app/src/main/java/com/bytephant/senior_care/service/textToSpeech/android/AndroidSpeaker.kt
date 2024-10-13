@@ -37,7 +37,7 @@ class AndroidSpeaker(
 
     companion object {
         @Volatile
-        private lateinit var instance: AndroidSpeaker
+        private var instance: AndroidSpeaker? = null
 
         fun getInstance(context: Context): AndroidSpeaker {
             return instance ?: synchronized(this) {
