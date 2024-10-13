@@ -2,35 +2,36 @@ package com.bytephant.senior_care.service.network.api
 
 import kotlinx.serialization.Serializable
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
-import java.time.LocalDateTime
 
 @Serializable
 data class InitMessageRes(
-    val message : String
+    val status: String,
+    val message: String,
+    val question: Int,
 )
 
 @Serializable
 data class InitMessageReq(
-    val question : String
+    val user_id : String
 )
 
 @Serializable
 data class ReplyReq(
-    val message : String,
-    val datetime: LocalDateTime
+    val user_id : String,
+    val answer : String
 )
 
 @Serializable
 data class ReplyRes(
+    val status: String,
     val message: String,
     val score: Int
 )
 
 interface MessageAPI {
-    @POST("conversation-first")
+    @POST("conversation/first")
     suspend fun getInitMessage(@Body req: InitMessageReq) : InitMessageRes
-    @POST("conversation-second")
+    @POST("conversation/second")
     suspend fun getReply(@Body req: ReplyReq) : ReplyRes
 }

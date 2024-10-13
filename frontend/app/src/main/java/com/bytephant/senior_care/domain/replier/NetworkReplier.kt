@@ -11,13 +11,13 @@ class NetworkReplier(
 ) : Replier {
     override suspend fun initDialogue(): BaseMessage {
         val response = messageAPI.getInitMessage(
-            InitMessageReq("날씨가 참 좋네요. 오늘은 외출 하실 계획이 있나요?")
+            InitMessageReq("abcdef")
         )
         return BaseMessage(response.message, false)
     }
 
     override suspend fun reply(message: String): BaseMessage {
-        val response = messageAPI.getReply(ReplyReq(message, LocalDateTime.now()))
+        val response = messageAPI.getReply(ReplyReq("abcdef", message))
         return BaseMessage(response.message, false)
     }
 }
