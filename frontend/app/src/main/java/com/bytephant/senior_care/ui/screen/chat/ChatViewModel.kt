@@ -1,6 +1,5 @@
 package com.bytephant.senior_care.ui.screen.chat
 
-import android.speech.tts.TextToSpeech
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -10,6 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.bytephant.senior_care.application.SeniorCareApplication
 import com.bytephant.senior_care.domain.data.BaseMessage
 import com.bytephant.senior_care.domain.replier.Replier
+import com.bytephant.senior_care.service.textToSpeech.Speaker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ChatViewModel(
-    private val tts: TextToSpeech,
+    private val speaker: Speaker,
     private val replier : Replier
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ChatUiState())
@@ -38,7 +38,7 @@ class ChatViewModel(
                     isSending = false,
                 )
             }
-            tts.speak(reply.message, TextToSpeech.QUEUE_FLUSH, null, "");
+            speaker.speak(reply.message);
         }
     }
 
@@ -55,7 +55,7 @@ class ChatViewModel(
         }
         viewModelScope.launch {
             val replyMessage : BaseMessage = replier.reply(sentence)
-            tts.speak(replyMessage.message, TextToSpeech.QUEUE_FLUSH, null, "");
+            speaker.speak(replyMessage.message);
             withContext(Dispatchers.Main) {
                 _uiState.update { currentState ->
                     currentState.copy(
@@ -76,12 +76,13 @@ class ChatViewModel(
     companion object {
         val Factory : ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as SeniorCareApplication)
-                val replier = application.container.replier
-                val tts = application.container.ttsService
+                val container = (this[APPLICATION_KEY] as SeniorCareApplication).container
+                val replier = container.replier
+                val speaker = container.speaker
+                val holder = container.dialogueHolder
                 ChatViewModel(
                     replier = replier,
-                    tts = tts
+                    speaker = speaker
                 )
             }
         }
