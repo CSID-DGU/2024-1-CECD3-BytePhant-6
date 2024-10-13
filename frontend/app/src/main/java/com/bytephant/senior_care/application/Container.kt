@@ -5,6 +5,7 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.room.Room
+import com.bytephant.senior_care.domain.data.DialogueHolder
 import com.bytephant.senior_care.domain.listener.android.AndroidVoiceRecognizer
 import com.bytephant.senior_care.domain.receiver.MessageReceiver
 import com.bytephant.senior_care.domain.receiver.MessageReceiverImpl
@@ -59,6 +60,10 @@ class Container (
     }
 
     val ttsService : TextToSpeech = TextToSpeech(context, this);
+
+    val dialogueHolder : DialogueHolder by lazy {
+        DialogueHolder()
+    }
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
