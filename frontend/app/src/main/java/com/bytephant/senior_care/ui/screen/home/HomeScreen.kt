@@ -34,6 +34,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
+    val agentStatus by homeViewModel.agentState.collectAsState()
     Column (
         modifier = Modifier
             .fillMaxWidth(),
@@ -45,7 +46,7 @@ fun HomeScreen(
                 .padding(48.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
-            val background = when (uiState.agentStatus) {
+            val background = when (agentStatus) {
                 AgentStatus.WAITING -> Color.Gray
                 AgentStatus.TALKING -> Color.Blue
                 AgentStatus.LISTENING -> Color.Green
@@ -63,7 +64,7 @@ fun HomeScreen(
             )
             {
                 IconButton(
-                    onClick = {  },
+                    onClick = { homeViewModel.replyWithVoice() },
                     enabled = true,
                     modifier = Modifier.fillMaxSize()
                 ) {

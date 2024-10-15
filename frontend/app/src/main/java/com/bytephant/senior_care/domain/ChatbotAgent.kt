@@ -9,6 +9,7 @@ import com.bytephant.senior_care.service.textToSpeech.Speaker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import okhttp3.internal.wait
 
 class ChatbotAgent(
     private val dialogueHolder: DialogueHolder,
@@ -19,20 +20,26 @@ class ChatbotAgent(
     val agentStatus = _agentStatus.asStateFlow()
 
     suspend fun initTalking() : BaseMessage{
-        val message = replier.initDialogue()
         _agentStatus.update { AgentStatus.THINKING }
+        val message = replier.initDialogue()
+        _agentStatus.update { AgentStatus.TALKING }
         dialogueHolder.appendMessage(message)
         speaker.speak(message.message)
+        _agentStatus.update { AgentStatus.WAITING }
         return message
     }
 
     suspend fun reply(userMessage: BaseMessage) : BaseMessage {
         _agentStatus.update { AgentStatus.THINKING }
         val reply = replier.reply(userMessage.message)
-        _agentStatus.update { AgentStatus.TALKING }
         speaker.speak(reply.message)
-        _agentStatus.update { AgentStatus.LISTENING }
+        _agentStatus.update { AgentStatus.TALKING }
         dialogueHolder.appendMessage(reply)
+        _agentStatus.update { AgentStatus.WAITING }
         return reply
+    }
+
+    fun listenStart() {
+        _agentStatus.update { AgentStatus.LISTENING }
     }
 }

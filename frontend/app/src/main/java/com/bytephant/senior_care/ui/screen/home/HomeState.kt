@@ -5,5 +5,4 @@ import com.bytephant.senior_care.domain.data.UserLocationStatus
 
 data class HomeState(
     val userLocation : UserLocationStatus = UserLocationStatus.OUT,
-    val agentStatus: AgentStatus = AgentStatus.WAITING
 )

@@ -1,5 +1,6 @@
 package com.bytephant.senior_care.ui.screen.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -9,15 +10,10 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.bytephant.senior_care.application.SeniorCareApplication
 import com.bytephant.senior_care.domain.ChatbotAgent
 import com.bytephant.senior_care.domain.data.DialogueHolder
-import com.bytephant.senior_care.domain.listener.android.AndroidVoiceRecognizer
 import com.bytephant.senior_care.domain.receiver.MessageReceiver
-import com.bytephant.senior_care.service.recognizer.VoiceRecognizer
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class HomeViewModel(
     private val chatbotAgent: ChatbotAgent,
@@ -27,18 +23,19 @@ class HomeViewModel(
     private val _uiState = MutableStateFlow(HomeState())
     val uiState =_uiState.asStateFlow()
     val dialogueStatus = dialogueHolder.dialogue
+    val agentState = chatbotAgent.agentStatus
 
     fun replyWithVoice() {
+        chatbotAgent.listenStart()
         if (dialogueHolder.dialogue.value.isStarted) {
             viewModelScope.launch {
                 messageReceiver.listen().collect { message ->
                     dialogueHolder.appendMessage(message)
-                    val reply = chatbotAgent.reply(message)
-                    withContext(Dispatchers.Main) {
-                        dialogueHolder.appendMessage(reply)
-                    }
+                    chatbotAgent.reply(message)
                 }
             }
+        }else {
+            Log.i("HomeViewModel", "not started")
         }
     }
 

@@ -43,7 +43,7 @@ fun ChatScreen(
     val focusRequester = remember { FocusRequester() }
     val listState = rememberLazyListState()
 
-    val inputEnable = agentStatus == AgentStatus.WAITING || agentStatus == AgentStatus.LISTENING
+    val inputEnable = agentStatus == AgentStatus.WAITING
 
     LaunchedEffect(dialogue.messageList.size, listState.isScrollInProgress) {
         if (uiState.messages.isNotEmpty()) {

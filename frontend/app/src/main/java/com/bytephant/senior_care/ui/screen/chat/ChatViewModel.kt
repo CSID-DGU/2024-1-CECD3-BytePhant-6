@@ -35,19 +35,10 @@ class ChatViewModel(
             _uiState.update { currentState ->
                 currentState.copy(
                     inputText = "",
-                    isSending = true
                 )
             }
             viewModelScope.launch {
-                val replyMessage : BaseMessage = chatbotAgent.reply(userMessage)
-                withContext(Dispatchers.Main) {
-                    _uiState.update { currentState ->
-                        currentState.copy(
-                            messages = currentState.messages + replyMessage,
-                            isSending = false
-                        )
-                    }
-                }
+                chatbotAgent.reply(userMessage)
             }
         }
     }
