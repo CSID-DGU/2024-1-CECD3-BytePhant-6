@@ -18,6 +18,7 @@ class AndroidSpeaker(
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "한국어 미지원")
             }
+            isInitialized = true
         } else {
             Log.e("TTS", "TTS 초기화 실패");
         }
