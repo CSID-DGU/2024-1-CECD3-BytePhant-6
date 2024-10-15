@@ -7,9 +7,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.bytephant.senior_care.application.SeniorCareApplication
+import com.bytephant.senior_care.domain.ChatbotAgent
 import com.bytephant.senior_care.domain.data.BaseMessage
-import com.bytephant.senior_care.domain.replier.Replier
-import com.bytephant.senior_care.service.textToSpeech.Speaker
+import com.bytephant.senior_care.domain.data.DialogueHolder
+import com.bytephant.senior_care.domain.receiver.MessageReceiver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,54 +19,39 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ChatViewModel(
-    private val speaker: Speaker,
-    private val replier : Replier
+    private val messageReceiver: MessageReceiver,
+    private val chatbotAgent: ChatbotAgent,
+    private val dialogueHolder: DialogueHolder
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState = _uiState.asStateFlow()
-
-    fun initMessage() {
-        _uiState.update { current ->
-            current.copy(
-                isSending = true
-            )
-        }
-        viewModelScope.launch {
-            val reply = replier.initDialogue()
-            _uiState.update { currentState->
-                currentState.copy(
-                    messages = currentState.messages + reply,
-                    isSending = false,
-                )
-            }
-            speaker.speak(reply.message);
-        }
-    }
+    val dialogueState = dialogueHolder.dialogue
+    val agentState = chatbotAgent.agentStatus
 
     fun sendQuestion(sentence: String) {
-        val userMessage = BaseMessage(sentence)
-
-        _uiState.update { currentState ->
-
-            currentState.copy(
-                messages = currentState.messages + userMessage,
-                inputText = "",
-                isSending = true
-            )
-        }
-        viewModelScope.launch {
-            val replyMessage : BaseMessage = replier.reply(sentence)
-            speaker.speak(replyMessage.message);
-            withContext(Dispatchers.Main) {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        messages = currentState.messages + replyMessage,
-                        isSending = false
-                    )
+        if (dialogueState.value.isStarted) {
+            val userMessage = messageReceiver.read(sentence);
+            dialogueHolder.appendMessage(userMessage)
+            _uiState.update { currentState ->
+                currentState.copy(
+                    inputText = "",
+                    isSending = true
+                )
+            }
+            viewModelScope.launch {
+                val replyMessage : BaseMessage = chatbotAgent.reply(userMessage)
+                withContext(Dispatchers.Main) {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            messages = currentState.messages + replyMessage,
+                            isSending = false
+                        )
+                    }
                 }
             }
         }
     }
+
     fun updateInputText(text: String) {
         _uiState.update { current ->
             current.copy(
@@ -73,17 +59,15 @@ class ChatViewModel(
             )
         }
     }
+
     companion object {
         val Factory : ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val container = (this[APPLICATION_KEY] as SeniorCareApplication).container
-                val replier = container.replier
-                val speaker = container.speaker
+                val chatBotAgent = container.chatBotAgent
+                val messageReceiver = container.messageReceiver
                 val holder = container.dialogueHolder
-                ChatViewModel(
-                    replier = replier,
-                    speaker = speaker
-                )
+                ChatViewModel(messageReceiver, chatBotAgent, holder)
             }
         }
     }

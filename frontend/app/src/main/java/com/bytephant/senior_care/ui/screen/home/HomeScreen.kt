@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -61,14 +62,20 @@ fun HomeScreen(
                     )
             )
             {
-                Image(
-                    painter = painterResource(id = R.drawable.ai_icon),
-                    contentDescription = "icon",
-                    modifier = Modifier
-                        .padding(12.dp)
-                        .clip(CircleShape)
-                        .fillMaxSize()
-                )
+                IconButton(
+                    onClick = {  },
+                    enabled = true,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ai_icon),
+                        contentDescription = "icon",
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .clip(CircleShape)
+                            .fillMaxSize(),
+                    )
+                }
             }
 
         }

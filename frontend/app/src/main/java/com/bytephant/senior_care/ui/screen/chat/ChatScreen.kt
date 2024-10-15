@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.bytephant.senior_care.domain.data.AgentStatus
 import com.bytephant.senior_care.ui.screen.chat.bubble.ChatBubbleList
 
 @Composable
@@ -35,17 +36,22 @@ fun ChatScreen(
     modifier: Modifier = Modifier
 ) {
     val uiState by chatViewModel.uiState.collectAsState()
+    val dialogue by chatViewModel.dialogueState.collectAsState()
+    val agentStatus by chatViewModel.agentState.collectAsState()
+
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
     val listState = rememberLazyListState()
 
-    LaunchedEffect(uiState.messages.size, listState.isScrollInProgress) {
+    val inputEnable = agentStatus == AgentStatus.WAITING || agentStatus == AgentStatus.LISTENING
+
+    LaunchedEffect(dialogue.messageList.size, listState.isScrollInProgress) {
         if (uiState.messages.isNotEmpty()) {
             listState.animateScrollToItem(uiState.messages.size - 1)
         }
     }
-    LaunchedEffect(uiState.isSending) {
-        if (!uiState.isSending) {
+    LaunchedEffect(agentStatus) {
+        if (agentStatus == AgentStatus.LISTENING) {
             focusRequester.requestFocus()
         }
     }
@@ -64,7 +70,7 @@ fun ChatScreen(
         ) {
             ChatBubbleList(
                 listState = listState,
-                messages = uiState.messages
+                messages = dialogue.messageList
             )
         }
         Row(
@@ -84,7 +90,7 @@ fun ChatScreen(
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                 ),
-                enabled = !uiState.isSending,
+                enabled = inputEnable,
             )
             Button(
                 onClick = {
@@ -92,7 +98,7 @@ fun ChatScreen(
                         chatViewModel.sendQuestion(uiState.inputText)
                     }
                 },
-                enabled = !uiState.isSending,
+                enabled = inputEnable,
                 modifier = Modifier
                     .padding(end = 16.dp)
             ) {
