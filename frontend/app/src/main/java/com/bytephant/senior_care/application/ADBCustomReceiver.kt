@@ -14,16 +14,6 @@ class ADBCustomReceiver : BroadcastReceiver() {
             MainScope().launch {
                 val message = application?.container?.chatBotAgent?.initTalking()
                 application?.container?.dialogueHolder?.initDialogue()
-                if (message != null) {
-                    application.run {
-                        container.dialogueHolder.appendMessage(message)
-                        container.messageReceiver.listen().collect { userMessage ->
-                            application.container.dialogueHolder.appendMessage(userMessage)
-                            val reply = container.chatBotAgent.reply(userMessage)
-                            container.dialogueHolder.appendMessage(reply)
-                        }
-                    }
-                }
             }
         }
     }
