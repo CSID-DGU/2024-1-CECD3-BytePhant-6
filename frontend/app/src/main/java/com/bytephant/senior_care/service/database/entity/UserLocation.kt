@@ -10,7 +10,6 @@ data class UserLocation(
     val longitude: Double,
     val latitude: Double,
     val dateTime: LocalDateTime,
-    val status: UserLocationStatus,
 
     @PrimaryKey(autoGenerate = true)
     val id : Long = 0

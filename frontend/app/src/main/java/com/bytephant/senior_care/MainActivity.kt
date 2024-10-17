@@ -37,6 +37,8 @@ import com.bytephant.senior_care.ui.screen.home.HomeViewModel
 import com.bytephant.senior_care.ui.theme.SeniorcareTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -95,7 +97,6 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             })
-
         enrollLocationSaver(application)
         enrollADBReceiver()
         enableEdgeToEdge()

@@ -15,14 +15,12 @@ class RoomLocationRepository(
 
     override suspend fun saveLocation(
         latitude: Double,
-        longitude: Double,
-        userLocationStatus: UserLocationStatus
+        longitude: Double
     ) {
         locationDao.insertLocation(
             UserLocation(
                 longitude, latitude,
-                LocalDateTime.now(),
-                userLocationStatus
+                LocalDateTime.now()
             ),
         )
     }

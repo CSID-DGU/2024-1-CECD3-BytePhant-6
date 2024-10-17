@@ -30,7 +30,6 @@ class LocationSaver(
                 locationRepository.saveLocation(
                     location.longitude,
                     location.latitude,
-                    UserLocationStatus.HOME
                 )
             }
             dataBuilder.putString("location", "location: pass")

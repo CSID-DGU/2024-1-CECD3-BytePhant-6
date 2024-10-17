@@ -8,8 +8,7 @@ import com.bytephant.senior_care.service.database.entity.HomeLocation
 interface LocationRepository {
     suspend fun saveLocation(
         latitude: Double,
-        longitude: Double,
-        userLocationStatus: UserLocationStatus
+        longitude: Double
     )
 
     suspend fun getHomeLocation() : GeoLocation?
