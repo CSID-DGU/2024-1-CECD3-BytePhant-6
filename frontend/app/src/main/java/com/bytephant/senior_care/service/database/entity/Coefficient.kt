@@ -1,16 +1,18 @@
 package com.bytephant.senior_care.service.database.entity
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.Embedded
+import androidx.room.Relation
 
-@Entity
 data class Coefficient(
-    @PrimaryKey(autoGenerate = true)
-    val id : Long = 0,
-    val section : Int,
-    val arm: Int,
-    val version: Int,
-
-    val A: Array<Array<Double>>,
-    val b: Array<Double>
+    @Embedded val base: CoefficientBase,
+    @Relation (
+        parentColumn = "id",
+        entityColumn = "aId"
+    )
+    val A : List<CoefficientA>,
+    @Relation (
+        parentColumn = "id",
+        entityColumn = "bId"
+    )
+    val b : List<CoefficientB>
 )

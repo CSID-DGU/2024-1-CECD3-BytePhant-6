@@ -7,10 +7,17 @@ import com.bytephant.senior_care.service.database.dao.CoefficientDao
 import com.bytephant.senior_care.service.database.dao.HomeDao
 import com.bytephant.senior_care.service.database.dao.LocationDao
 import com.bytephant.senior_care.service.database.entity.Coefficient
+import com.bytephant.senior_care.service.database.entity.CoefficientA
+import com.bytephant.senior_care.service.database.entity.CoefficientB
+import com.bytephant.senior_care.service.database.entity.CoefficientBase
 import com.bytephant.senior_care.service.database.entity.HomeLocation
 import com.bytephant.senior_care.service.database.entity.UserLocation
 
-@Database(entities = [UserLocation::class, Coefficient::class, HomeLocation::class], version = 1)
+@Database(entities = [
+    UserLocation::class,
+    CoefficientA::class, CoefficientB::class, CoefficientBase::class,
+    HomeLocation::class
+], version = 1)
 @TypeConverters(Converters::class)
 abstract class SeniorCareDatabase : RoomDatabase() {
     abstract val locationDao: LocationDao
