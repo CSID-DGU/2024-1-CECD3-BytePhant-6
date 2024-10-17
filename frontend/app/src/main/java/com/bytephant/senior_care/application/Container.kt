@@ -39,7 +39,7 @@ class Container (
     ).build()
 
     val locationRepository : LocationRepository by lazy {
-        RoomLocationRepository(database.locationDao)
+        RoomLocationRepository(database.locationDao, database.homeLocationDao)
     }
 
     val locationClient : LocationClient by lazy {
