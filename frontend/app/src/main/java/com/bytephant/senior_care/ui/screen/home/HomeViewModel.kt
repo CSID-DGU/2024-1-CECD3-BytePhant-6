@@ -27,15 +27,11 @@ class HomeViewModel(
 
     fun replyWithVoice() {
         chatbotAgent.listenStart()
-        if (dialogueHolder.dialogue.value.isStarted) {
-            viewModelScope.launch {
-                messageReceiver.listen().collect { message ->
-                    dialogueHolder.appendMessage(message)
-                    chatbotAgent.reply(message)
-                }
+        viewModelScope.launch {
+            messageReceiver.listen().collect { message ->
+                dialogueHolder.appendMessage(message)
+                chatbotAgent.reply(message)
             }
-        }else {
-            Log.i("HomeViewModel", "not started")
         }
     }
 
