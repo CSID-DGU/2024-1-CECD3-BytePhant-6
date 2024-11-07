@@ -50,13 +50,12 @@ class Container (
     }
 
     private val voiceRecognizer : VoiceRecognizer by lazy {
-        val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
-        AndroidVoiceRecognizer(context, speechRecognizer)
+        AndroidVoiceRecognizer(context)
     }
     private val speaker : Speaker by lazy { AndroidSpeaker.getInstance(context) };
 
     val messageReceiver : MessageReceiver by lazy {
-        MessageReceiverImpl(voiceRecognizer)
+        MessageReceiverImpl(voiceRecognizer, speaker)
     }
 
     val dialogueHolder : DialogueHolder by lazy {

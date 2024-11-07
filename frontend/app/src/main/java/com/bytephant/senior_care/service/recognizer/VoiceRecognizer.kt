@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import kotlinx.coroutines.flow.Flow
 
 interface VoiceRecognizer {
-    fun getRecognizedDialogue() : Flow<String>
+    fun getRecognizedDialogue() : Flow<RecognizeResult>
     class VoiceRecognizeException(message: String) : Exception(message) {}
     companion object {
         fun checkPermissions(context: Context) : Boolean {
