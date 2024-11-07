@@ -1,6 +1,7 @@
 package com.bytephant.senior_care.domain
 
 import androidx.compose.runtime.collectAsState
+import androidx.core.content.ContextCompat
 import com.bytephant.senior_care.domain.data.AgentStatus
 import com.bytephant.senior_care.domain.data.BaseMessage
 import com.bytephant.senior_care.domain.data.DialogueHolder
@@ -32,9 +33,9 @@ class ChatbotAgent(
     suspend fun reply(userMessage: BaseMessage) : BaseMessage {
         _agentStatus.update { AgentStatus.THINKING }
         val reply = replier.reply(userMessage.message)
-        speaker.speak(reply.message)
-        _agentStatus.update { AgentStatus.TALKING }
         dialogueHolder.appendMessage(reply)
+        _agentStatus.update { AgentStatus.TALKING }
+        speaker.speak(reply.message)
         _agentStatus.update { AgentStatus.WAITING }
         return reply
     }
