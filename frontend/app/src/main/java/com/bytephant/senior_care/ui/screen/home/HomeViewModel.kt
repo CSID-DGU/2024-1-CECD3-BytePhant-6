@@ -13,6 +13,8 @@ import com.bytephant.senior_care.domain.data.DialogueHolder
 import com.bytephant.senior_care.domain.receiver.MessageReceiver
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -28,7 +30,10 @@ class HomeViewModel(
     fun replyWithVoice() {
         chatbotAgent.listenStart()
         viewModelScope.launch {
-            messageReceiver.listen().collect { message ->
+            val message = messageReceiver.listen().firstOrNull()
+            if (message == null) {
+                chatbotAgent.listenEnd()
+            } else {
                 dialogueHolder.appendMessage(message)
                 chatbotAgent.reply(message)
             }

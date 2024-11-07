@@ -23,6 +23,8 @@ class MessageReceiverImpl(
             val secondTry = voiceRecognizer.getRecognizedDialogue().first()
             if (secondTry.status == RecognizeStatus.SUCCESS) {
                 send((BaseMessage(secondTry.answer!!)))
+            } else {
+                close()
             }
             awaitClose()
         }

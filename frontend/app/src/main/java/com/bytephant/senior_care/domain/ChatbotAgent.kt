@@ -43,4 +43,8 @@ class ChatbotAgent(
     fun listenStart() {
         _agentStatus.update { AgentStatus.LISTENING }
     }
+
+    fun listenEnd() {
+        _agentStatus.update { AgentStatus.WAITING }
+    }
 }
