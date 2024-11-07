@@ -2,9 +2,14 @@ package com.bytephant.senior_care.service.textToSpeech.android
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import com.bytephant.senior_care.service.textToSpeech.Speaker
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.Locale
+import java.util.UUID
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class AndroidSpeaker(
     private val context: Context
@@ -24,11 +29,22 @@ class AndroidSpeaker(
         }
     }
 
-    override fun speak(message: String) {
-        if (isInitialized) {
-            textToSpeech.speak(message, TextToSpeech.QUEUE_FLUSH, null, "")
-        } else {
-            Log.e("TTS","TextToSpeech is not initialized yet.")
+    override suspend fun speak(message: String) {
+        return suspendCancellableCoroutine { continuation ->
+            textToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                override fun onStart(utteranceId: String?) {}
+                override fun onDone(utteranceId: String?) {
+                    continuation.resume(Unit)
+                }
+                override fun onError(utteranceId: String?) {
+                    continuation.resumeWithException(Exception("TTS Error"))
+                }
+            })
+            if (isInitialized) {
+                textToSpeech.speak(message, TextToSpeech.QUEUE_FLUSH, null, "")
+            } else {
+                Log.e("TTS","TextToSpeech is not initialized yet.")
+            }
         }
     }
 
