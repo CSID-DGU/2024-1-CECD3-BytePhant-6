@@ -24,8 +24,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun TopBar(
     currentScreenType: AppScreenType,
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
+    navigationIcon: @Composable () -> Unit,
     modifier : Modifier = Modifier
 ) {
     Row (
@@ -39,17 +38,7 @@ fun TopBar(
             modifier = Modifier,
             horizontalAlignment = Alignment.Start,
         ) {
-            IconButton(
-                onClick = navigateUp,
-                enabled = canNavigateBack
-            ) {
-                if (canNavigateBack) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back"
-                    )
-                }
-            }
+            navigationIcon()
         }
         Column(
             modifier = Modifier,

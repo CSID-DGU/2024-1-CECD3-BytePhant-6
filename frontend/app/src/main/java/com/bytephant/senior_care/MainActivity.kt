@@ -114,8 +114,7 @@ class MainActivity : ComponentActivity() {
                     topBar = {
                         TopBar(
                             currentScreenType = currentScreen,
-                            canNavigateBack = navController.previousBackStackEntry != null,
-                            navigateUp ={ navController.navigateUp() }
+                            navigationIcon = {}
                         )
                     }
                 ) { innerPadding ->
