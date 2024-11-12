@@ -29,6 +29,7 @@ import com.bytephant.senior_care.background.enrollLocationSaver
 import com.bytephant.senior_care.background.worker.LocationSaver
 import com.bytephant.senior_care.domain.data.UserLocationStatus
 import com.bytephant.senior_care.ui.routing.AppScreenType
+import com.bytephant.senior_care.ui.routing.NavigationDrawer
 import com.bytephant.senior_care.ui.routing.TopBar
 import com.bytephant.senior_care.ui.screen.chat.ChatScreen
 import com.bytephant.senior_care.ui.screen.chat.ChatViewModel
@@ -103,20 +104,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             SeniorcareTheme {
                 val navController : NavHostController = rememberNavController()
-                val backStackEntry by navController.currentBackStackEntryAsState()
-                val currentScreen = AppScreenType.valueOf(
-                    backStackEntry?.destination?.route ?: AppScreenType.CHAT.name
-                )
                 val chatViewModel: ChatViewModel= viewModel(factory = ChatViewModel.Factory)
                 val homeViewModel: HomeViewModel= viewModel(factory = HomeViewModel.Factory)
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    topBar = {
-                        TopBar(
-                            currentScreenType = currentScreen,
-                            navigationIcon = {}
-                        )
-                    }
+                NavigationDrawer(
+                    navController = navController
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
