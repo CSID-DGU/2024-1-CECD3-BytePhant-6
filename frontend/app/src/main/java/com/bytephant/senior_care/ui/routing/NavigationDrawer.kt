@@ -1,10 +1,15 @@
 package com.bytephant.senior_care.ui.routing
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Favorite
@@ -16,15 +21,18 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 
@@ -36,7 +44,7 @@ fun NavigationDrawer(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope();
     var selectedItemIndex by rememberSaveable {
-        mutableStateOf(0)
+        mutableIntStateOf(0)
     }
 
 
@@ -69,6 +77,7 @@ fun NavigationDrawer(
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
+                Spacer(modifier = Modifier.height(16.dp))
                 items.forEachIndexed { index, item ->
                     NavigationDrawerItem(
                         label = { Text(text = item.title) },
@@ -86,7 +95,9 @@ fun NavigationDrawer(
                                     } else item.unselectedIcon,
                                 contentDescription = item.title
                             )
-                        }
+                        },
+                        modifier = Modifier
+                            .padding(NavigationDrawerItemDefaults.ItemPadding)
                     )
                 }
             }
@@ -98,11 +109,15 @@ fun NavigationDrawer(
                 TopBar(
                     currentScreenType = AppScreenType.HOME,
                     navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch {
-                                drawerState.open()
-                            }
-                        }) {}
+                        IconButton(
+                            onClick = { scope.launch { drawerState.open() } },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Menu,
+                                contentDescription = "Menu",
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
                     }
                 )
             }
