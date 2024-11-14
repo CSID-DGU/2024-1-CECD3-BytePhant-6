@@ -30,9 +30,24 @@ data class ReplyRes(
     val score: Int
 )
 
+@Serializable
+data class QuestionConfirmReq(
+    val question_id: Int,
+    val user_id: String
+)
+
+@Serializable
+data class InterestConfirmReq(
+    val interest_id: Int
+)
+
 interface MessageAPI {
     @POST("conversation/first")
     suspend fun getInitMessage(@Body req: InitMessageReq) : InitMessageRes
     @POST("conversation/second")
     suspend fun getReply(@Body req: ReplyReq) : ReplyRes
+    @POST("mark/question")
+    suspend fun confirmQuestion(@Body req: QuestionConfirmReq)
+    @POST("mark/interest")
+    suspend fun confirmInterest(@Body req: InterestConfirmReq)
 }
