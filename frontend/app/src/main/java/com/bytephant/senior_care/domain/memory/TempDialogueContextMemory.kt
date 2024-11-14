@@ -1,13 +1,19 @@
 package com.bytephant.senior_care.domain.memory
 
-class TempDialogueContextMemory : DialogueContextMemory{
-    private var lastTopicId : Int = -1
+import com.bytephant.senior_care.domain.data.Topic
 
-    override fun saveTopicId(topicId: Int) {
-        this.lastTopicId = topicId
+class TempDialogueContextMemory : DialogueContextMemory{
+    private var topic : Topic? = null
+
+    override fun saveTopic(topic: Topic) {
+        this.topic = topic;
     }
 
-    override fun getTopicId(): Int? {
-        return if (this.lastTopicId == -1 ) null else this.lastTopicId
+    override fun getTopic(): Topic? {
+        return topic
+    }
+
+    override fun reset() {
+        this.topic = null
     }
 }

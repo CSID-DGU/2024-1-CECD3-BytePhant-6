@@ -1,6 +1,9 @@
 package com.bytephant.senior_care.domain.memory
 
+import com.bytephant.senior_care.domain.data.Topic
+
 interface DialogueContextMemory {
-    fun saveTopicId(topicId : Int)
-    fun getTopicId() : Int?
+    fun saveTopic(topic: Topic)
+    fun getTopic() : Topic?
+    fun reset()
 }

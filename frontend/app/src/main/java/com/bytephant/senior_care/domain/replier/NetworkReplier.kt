@@ -1,6 +1,7 @@
 package com.bytephant.senior_care.domain.replier
 
-import com.bytephant.senior_care.domain.data.BaseMessage
+import com.bytephant.senior_care.domain.data.Topic
+import com.bytephant.senior_care.domain.data.TopicSource
 import com.bytephant.senior_care.domain.replier.dto.InitReplyDTO
 import com.bytephant.senior_care.domain.replier.dto.ReplyDTO
 import com.bytephant.senior_care.service.network.api.InitMessageReq
@@ -14,8 +15,14 @@ class NetworkReplier(
         val response = messageAPI.getInitMessage(
             InitMessageReq("abcdef")
         )
-        val topicId = response.interest_id ?: response.question_id
-        return InitReplyDTO(response.message, topicId)
+        val topic = if (response.interest_id != null) {
+            Topic(TopicSource.INTEREST, response.interest_id)
+        } else if (response.question_id != null){
+            Topic(TopicSource.QUESTION, response.question_id)
+        } else {
+            throw RuntimeException("관련된 id가 없습니다.")
+        }
+        return InitReplyDTO(response.message, topic)
     }
 
     override suspend fun reply(message: String): ReplyDTO {
