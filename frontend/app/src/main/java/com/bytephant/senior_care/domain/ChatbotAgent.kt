@@ -23,21 +23,23 @@ class ChatbotAgent(
     suspend fun initTalking() : BaseMessage{
         _agentStatus.update { AgentStatus.THINKING }
         val message = replier.initDialogue()
+        val res = BaseMessage(message.message, false)
         _agentStatus.update { AgentStatus.TALKING }
-        dialogueHolder.appendMessage(message)
+        dialogueHolder.appendMessage(res)
         speaker.speak(message.message)
         _agentStatus.update { AgentStatus.WAITING }
-        return message
+        return res
     }
 
     suspend fun reply(userMessage: BaseMessage) : BaseMessage {
         _agentStatus.update { AgentStatus.THINKING }
         val reply = replier.reply(userMessage.message)
-        dialogueHolder.appendMessage(reply)
+        val res = BaseMessage(reply.message, false);
+        dialogueHolder.appendMessage(res)
         _agentStatus.update { AgentStatus.TALKING }
         speaker.speak(reply.message)
         _agentStatus.update { AgentStatus.WAITING }
-        return reply
+        return res
     }
 
     fun listenStart() {

@@ -8,7 +8,8 @@ import retrofit2.http.POST
 data class InitMessageRes(
     val status: String,
     val message: String,
-    val question: Int,
+    val question_id: Int?,
+    val interest_id: Int?
 )
 
 @Serializable

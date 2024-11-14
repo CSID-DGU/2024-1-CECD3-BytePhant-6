@@ -1,8 +1,9 @@
 package com.bytephant.senior_care.domain.replier
 
-import com.bytephant.senior_care.domain.data.BaseMessage
+import com.bytephant.senior_care.domain.replier.dto.InitReplyDTO
+import com.bytephant.senior_care.domain.replier.dto.ReplyDTO
 
 interface Replier {
-    suspend fun initDialogue() : BaseMessage
-    suspend fun reply(message: String) : BaseMessage
+    suspend fun initDialogue() : InitReplyDTO
+    suspend fun reply(message: String) : ReplyDTO
 }
