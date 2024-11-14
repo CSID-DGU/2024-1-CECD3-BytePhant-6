@@ -5,7 +5,9 @@ import com.bytephant.senior_care.domain.data.TopicSource
 import com.bytephant.senior_care.domain.replier.dto.InitReplyDTO
 import com.bytephant.senior_care.domain.replier.dto.ReplyDTO
 import com.bytephant.senior_care.service.network.api.InitMessageReq
+import com.bytephant.senior_care.service.network.api.InterestConfirmReq
 import com.bytephant.senior_care.service.network.api.MessageAPI
+import com.bytephant.senior_care.service.network.api.QuestionConfirmReq
 import com.bytephant.senior_care.service.network.api.ReplyReq
 
 class NetworkReplier(
@@ -28,5 +30,16 @@ class NetworkReplier(
     override suspend fun reply(message: String): ReplyDTO {
         val response = messageAPI.getReply(ReplyReq("abcdef", message))
         return ReplyDTO(response.message, response.score)
+    }
+
+    override suspend fun confirmReply(topic: Topic) {
+        when (topic.source) {
+            TopicSource.INTEREST -> {
+                messageAPI.confirmInterest(InterestConfirmReq(topic.sourceId))
+            }
+            TopicSource.QUESTION -> {
+                messageAPI.confirmQuestion(QuestionConfirmReq(topic.sourceId, "abcdef"))
+            }
+        }
     }
 }

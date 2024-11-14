@@ -13,4 +13,7 @@ class MockReplier : Replier {
     override suspend fun reply(message: String): ReplyDTO {
         return ReplyDTO("대답\n대답\n대답\n", 5)
     }
+
+    override suspend fun confirmReply(topic: Topic) {
+    }
 }

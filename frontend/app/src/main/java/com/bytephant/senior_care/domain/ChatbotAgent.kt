@@ -35,6 +35,11 @@ class ChatbotAgent(
         _agentStatus.update { AgentStatus.THINKING }
         val reply = replier.reply(userMessage.message)
         val res = BaseMessage(reply.message, false)
+        val topic = contextMemory.getTopic()
+        if (reply.score > 0 && topic != null) {
+            replier.confirmReply(topic)
+            contextMemory.reset()
+        }
         dialogueHolder.appendMessage(res)
         _agentStatus.update { AgentStatus.TALKING }
         speaker.speak(reply.message)
