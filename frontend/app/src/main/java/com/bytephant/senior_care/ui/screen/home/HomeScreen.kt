@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bytephant.senior_care.R
@@ -30,7 +34,6 @@ import com.bytephant.senior_care.domain.data.AgentStatus
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
-    navigateToChat: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
@@ -42,7 +45,7 @@ fun HomeScreen(
     ) {
         Row (
             modifier = Modifier
-                .weight(0.7f)
+                .weight(0.6f)
                 .padding(48.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
@@ -84,25 +87,25 @@ fun HomeScreen(
             modifier = Modifier.weight(0.3f),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(
+            Box(
                 modifier = Modifier
-                    .padding(4.dp),
-                onClick = navigateToChat,
+                    .fillMaxWidth(0.7f)
+                    .heightIn(min = 80.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(MaterialTheme.colorScheme.primary)
             ) {
                 Text(
-                    text = "채팅",
-                    fontSize = 16.sp
+                    text = "챗봇 내용\n내용",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    lineHeight = 24.sp,
+                    maxLines = 3,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
                 )
             }
-//            Button(
-//                modifier = Modifier.padding(4.dp),
-//                onClick = {  }
-//            ) {
-//                Text(
-//                    text = "현재 위치를 집 위치로",
-//                    fontSize = 16.sp
-//                )
-//            }
         }
     }
 }

@@ -120,7 +120,6 @@ class MainActivity : ComponentActivity() {
                         composable(route= AppScreenType.HOME.name) {
                             HomeScreen(
                                 homeViewModel,
-                                { navController.navigate(AppScreenType.CHAT.name) }
                             )
                         }
                     }
