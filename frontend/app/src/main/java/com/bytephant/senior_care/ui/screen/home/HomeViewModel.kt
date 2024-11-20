@@ -24,8 +24,8 @@ class HomeViewModel(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeState())
     val uiState =_uiState.asStateFlow()
-    val dialogueStatus = dialogueHolder.dialogue
     val agentState = chatbotAgent.agentStatus
+    val agentLastSentence = chatbotAgent.agentLastSentence
 
     fun replyWithVoice() {
         chatbotAgent.listenStart()

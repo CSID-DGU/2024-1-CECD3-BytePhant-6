@@ -38,6 +38,8 @@ fun HomeScreen(
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
     val agentStatus by homeViewModel.agentState.collectAsState()
+    val agentLastSentence by homeViewModel.agentLastSentence.collectAsState()
+
     Column (
         modifier = Modifier
             .fillMaxWidth(),
@@ -95,7 +97,7 @@ fun HomeScreen(
                     .background(MaterialTheme.colorScheme.primary)
             ) {
                 Text(
-                    text = "챗봇 내용\n내용",
+                    text = agentLastSentence,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center,

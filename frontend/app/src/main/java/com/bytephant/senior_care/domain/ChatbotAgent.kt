@@ -17,7 +17,9 @@ class ChatbotAgent(
     private val contextMemory: DialogueContextMemory
 ) {
     private val _agentStatus = MutableStateFlow(AgentStatus.WAITING)
+    private val _agentLastSentence = MutableStateFlow("")
     val agentStatus = _agentStatus.asStateFlow()
+    val agentLastSentence = _agentLastSentence.asStateFlow()
 
     suspend fun initTalking() : BaseMessage{
         _agentStatus.update { AgentStatus.THINKING }
@@ -26,6 +28,7 @@ class ChatbotAgent(
         contextMemory.saveTopic(message.topic)
         _agentStatus.update { AgentStatus.TALKING }
         dialogueHolder.appendMessage(res)
+        _agentLastSentence.update { message.message }
         speaker.speak(message.message)
         _agentStatus.update { AgentStatus.WAITING }
         return res
@@ -42,6 +45,7 @@ class ChatbotAgent(
         }
         dialogueHolder.appendMessage(res)
         _agentStatus.update { AgentStatus.TALKING }
+        _agentLastSentence.update { reply.message }
         speaker.speak(reply.message)
         _agentStatus.update { AgentStatus.WAITING }
         return res
