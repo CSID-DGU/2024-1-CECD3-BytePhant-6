@@ -1,5 +1,6 @@
 package com.bytephant.senior_care.ui.routing
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -93,9 +95,13 @@ fun NavigationDrawer(
                                     if (index == selectedItemIndex) {
                                         item.selectedIcon
                                     } else item.unselectedIcon,
+                                tint = MaterialTheme.colorScheme.tertiary,
                                 contentDescription = item.title
                             )
                         },
+                        colors = NavigationDrawerItemDefaults.colors(
+                            selectedContainerColor = MaterialTheme.colorScheme.secondary
+                        ),
                         modifier = Modifier
                             .padding(NavigationDrawerItemDefaults.ItemPadding)
                     )
@@ -115,7 +121,8 @@ fun NavigationDrawer(
                             Icon(
                                 imageVector = Icons.Filled.Menu,
                                 contentDescription = "Menu",
-                                modifier = Modifier.size(32.dp)
+                                modifier = Modifier.size(32.dp),
+                                tint = MaterialTheme.colorScheme.tertiary
                             )
                         }
                     }
