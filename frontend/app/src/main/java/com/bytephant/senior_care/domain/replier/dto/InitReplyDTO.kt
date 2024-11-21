@@ -4,5 +4,5 @@ import com.bytephant.senior_care.domain.data.Topic
 
 data class InitReplyDTO(
     val message: String,
-    val topic: Topic
+    val topic: Topic?
 )

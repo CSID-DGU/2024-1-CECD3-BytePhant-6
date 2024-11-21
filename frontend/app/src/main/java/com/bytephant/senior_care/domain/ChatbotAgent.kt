@@ -25,7 +25,7 @@ class ChatbotAgent(
         _agentStatus.update { AgentStatus.THINKING }
         val message = replier.initDialogue()
         val res = BaseMessage(message.message, false)
-        contextMemory.saveTopic(message.topic)
+        if (message.topic != null) contextMemory.saveTopic(message.topic)
         _agentStatus.update { AgentStatus.TALKING }
         dialogueHolder.appendMessage(res)
         _agentLastSentence.update { message.message }

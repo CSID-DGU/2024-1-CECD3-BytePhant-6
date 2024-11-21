@@ -21,9 +21,7 @@ class NetworkReplier(
             Topic(TopicSource.INTEREST, response.interest_id)
         } else if (response.question_id != null){
             Topic(TopicSource.QUESTION, response.question_id)
-        } else {
-            throw RuntimeException("관련된 id가 없습니다.")
-        }
+        } else null
         return InitReplyDTO(response.message, topic)
     }
 
