@@ -33,10 +33,10 @@ class NetworkReplier(
     override suspend fun confirmReply(topic: Topic) {
         when (topic.source) {
             TopicSource.INTEREST -> {
-                messageAPI.confirmInterest(InterestConfirmReq(topic.sourceId))
+                messageAPI.confirmInterest(InterestConfirmReq(topic.sourceId.toString()))
             }
             TopicSource.QUESTION -> {
-                messageAPI.confirmQuestion(QuestionConfirmReq(topic.sourceId, "abcdef"))
+                messageAPI.confirmQuestion(QuestionConfirmReq(topic.sourceId.toString(), "abcdef"))
             }
         }
     }

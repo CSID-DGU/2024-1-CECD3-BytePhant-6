@@ -32,13 +32,13 @@ data class ReplyRes(
 
 @Serializable
 data class QuestionConfirmReq(
-    val question_id: Int,
+    val question_id: String,
     val user_id: String
 )
 
 @Serializable
 data class InterestConfirmReq(
-    val interest_id: Int
+    val interest_id: String
 )
 
 interface MessageAPI {
