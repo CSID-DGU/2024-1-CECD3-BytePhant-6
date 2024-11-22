@@ -6,8 +6,11 @@ import androidx.room.Room
 import com.bytephant.senior_care.domain.ChatbotAgent
 import com.bytephant.senior_care.domain.data.DialogueHolder
 import com.bytephant.senior_care.domain.listener.android.AndroidVoiceRecognizer
+import com.bytephant.senior_care.domain.memory.DialogueContextMemory
+import com.bytephant.senior_care.domain.memory.TempDialogueContextMemory
 import com.bytephant.senior_care.domain.receiver.MessageReceiver
 import com.bytephant.senior_care.domain.receiver.MessageReceiverImpl
+import com.bytephant.senior_care.domain.replier.MockReplier
 import com.bytephant.senior_care.domain.replier.NetworkReplier
 import com.bytephant.senior_care.domain.replier.Replier
 import com.bytephant.senior_care.domain.repository.LocationRepository
@@ -29,8 +32,8 @@ class Container (
         RetrofitConfig.retrofit.create(MessageAPI::class.java)
     }
     val replier : Replier by lazy {
-        NetworkReplier(messageAPI)
-//        MockReplier()
+//        NetworkReplier(messageAPI)
+        MockReplier()
     }
     val database = Room.databaseBuilder(
         context = context,
@@ -62,7 +65,16 @@ class Container (
         DialogueHolder()
     }
 
+    val contextMemory : DialogueContextMemory by lazy {
+        TempDialogueContextMemory()
+    }
+
     val chatBotAgent : ChatbotAgent by lazy {
-        ChatbotAgent(dialogueHolder, replier, speaker)
+        ChatbotAgent(
+            dialogueHolder,
+            replier,
+            speaker,
+            contextMemory
+        )
     }
 }
