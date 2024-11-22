@@ -34,6 +34,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 
@@ -81,7 +82,12 @@ fun NavigationDrawer(
                 Spacer(modifier = Modifier.height(16.dp))
                 items.forEachIndexed { index, item ->
                     NavigationDrawerItem(
-                        label = { Text(text = item.title) },
+                        label = {
+                            Text(
+                                text = item.title,
+                                fontSize = 28.sp
+                            )
+                        },
                         selected = index == selectedItemIndex,
                         onClick = {
                             navController.navigate(item.route.name)
@@ -121,8 +127,8 @@ fun NavigationDrawer(
                             Icon(
                                 imageVector = Icons.Filled.Menu,
                                 contentDescription = "Menu",
-                                modifier = Modifier.size(32.dp),
-                                tint = MaterialTheme.colorScheme.tertiary
+                                modifier = Modifier.size(36.dp),
+                                tint = MaterialTheme.colorScheme.tertiary,
                             )
                         }
                     }
