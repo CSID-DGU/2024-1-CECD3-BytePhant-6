@@ -47,7 +47,7 @@ fun HomeScreen(
     ) {
         Row (
             modifier = Modifier
-                .weight(0.6f)
+                .weight(0.5f)
                 .padding(48.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
@@ -91,18 +91,18 @@ fun HomeScreen(
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.7f)
-                    .heightIn(min = 80.dp)
+                    .fillMaxWidth(0.8f)
+                    .heightIn(min = 24.dp, max = 320.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .background(MaterialTheme.colorScheme.primary)
             ) {
                 Text(
                     text = agentLastSentence,
-                    fontSize = 16.sp,
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center,
-                    lineHeight = 24.sp,
-                    maxLines = 3,
+                    maxLines = 7,
+                    lineHeight = 32.sp,
                     modifier = Modifier
                         .padding(8.dp)
                         .fillMaxWidth()
