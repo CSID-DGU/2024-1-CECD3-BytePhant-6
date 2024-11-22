@@ -1,6 +1,5 @@
 package com.bytephant.senior_care.ui.routing
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -108,7 +107,8 @@ fun NavigationDrawer(
                 }
             }
         },
-        drawerState = drawerState
+        drawerState = drawerState,
+        gesturesEnabled = drawerState.isOpen,
     ) {
         Scaffold(
             topBar = {
