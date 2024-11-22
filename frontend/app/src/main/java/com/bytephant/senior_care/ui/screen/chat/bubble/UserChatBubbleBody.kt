@@ -52,7 +52,7 @@ fun UserChatBubbleBody(
             ) {
                 Text(
                     text = message.message,
-                    color = Color.White,
+                    color = Color.Black,
                     fontSize = 20.sp
                 )
             }

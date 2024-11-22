@@ -50,7 +50,7 @@ fun AIChatBubbleBody(
     ) {
         Text(
             text = message.message,
-            color = Color.White,
+            color = Color.Black,
             fontSize = 20.sp
         )
     }
