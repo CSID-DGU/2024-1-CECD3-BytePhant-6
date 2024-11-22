@@ -1,0 +1,1 @@
+adb shell am broadcast -a "com.example.action.INIT_TALKING"
