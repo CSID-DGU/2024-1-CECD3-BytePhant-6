@@ -36,11 +36,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.bytephant.senior_care.domain.ChatbotAgent
 import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationDrawer(
     navController: NavHostController,
+    chatbotAgent: ChatbotAgent,
     body: @Composable (padding: PaddingValues) -> Unit,
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -130,6 +132,11 @@ fun NavigationDrawer(
                                 modifier = Modifier.size(36.dp),
                                 tint = MaterialTheme.colorScheme.tertiary,
                             )
+                        }
+                    },
+                    hiddenAction = {
+                        scope.launch {
+                            chatbotAgent.initTalking();
                         }
                     }
                 )

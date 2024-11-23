@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -66,6 +67,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestPermissions()
+        val container = (application as SeniorCareApplication).container
         val workRequest = OneTimeWorkRequest
             .Builder(LocationSaver::class.java)
             .build()
@@ -107,7 +109,8 @@ class MainActivity : ComponentActivity() {
                 val chatViewModel: ChatViewModel= viewModel(factory = ChatViewModel.Factory)
                 val homeViewModel: HomeViewModel= viewModel(factory = HomeViewModel.Factory)
                 NavigationDrawer(
-                    navController = navController
+                    navController = navController,
+                    chatbotAgent = container.chatBotAgent
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
