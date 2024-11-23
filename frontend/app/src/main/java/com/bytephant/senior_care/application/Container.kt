@@ -32,8 +32,8 @@ class Container (
         RetrofitConfig.retrofit.create(MessageAPI::class.java)
     }
     val replier : Replier by lazy {
-//        NetworkReplier(messageAPI)
-        MockReplier()
+        NetworkReplier(messageAPI)
+//        MockReplier()
     }
     val database = Room.databaseBuilder(
         context = context,
