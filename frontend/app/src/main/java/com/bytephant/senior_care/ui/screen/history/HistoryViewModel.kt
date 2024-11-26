@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.bytephant.senior_care.application.SeniorCareApplication
 import com.bytephant.senior_care.domain.user.loader.MockUserMetaLoader
+import com.bytephant.senior_care.domain.user.loader.NetworkMetaLoader
 import com.bytephant.senior_care.domain.user.loader.UserMetaLoader
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,7 +40,7 @@ class HistoryViewModel(
             initializer {
                 val container = (this[APPLICATION_KEY] as SeniorCareApplication).container
 
-                HistoryViewModel(MockUserMetaLoader())
+                HistoryViewModel(container.userMetaLoader)
             }
         }
     }

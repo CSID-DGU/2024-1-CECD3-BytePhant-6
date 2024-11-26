@@ -1,7 +1,6 @@
 package com.bytephant.senior_care.application
 
 import android.content.Context
-import android.speech.SpeechRecognizer
 import androidx.room.Room
 import com.bytephant.senior_care.domain.ChatbotAgent
 import com.bytephant.senior_care.domain.data.DialogueHolder
@@ -10,11 +9,12 @@ import com.bytephant.senior_care.domain.memory.DialogueContextMemory
 import com.bytephant.senior_care.domain.memory.TempDialogueContextMemory
 import com.bytephant.senior_care.domain.receiver.MessageReceiver
 import com.bytephant.senior_care.domain.receiver.MessageReceiverImpl
-import com.bytephant.senior_care.domain.replier.MockReplier
 import com.bytephant.senior_care.domain.replier.NetworkReplier
 import com.bytephant.senior_care.domain.replier.Replier
 import com.bytephant.senior_care.domain.repository.LocationRepository
 import com.bytephant.senior_care.domain.repository.RoomLocationRepository
+import com.bytephant.senior_care.domain.user.loader.MockUserMetaLoader
+import com.bytephant.senior_care.domain.user.loader.UserMetaLoader
 import com.bytephant.senior_care.service.database.SeniorCareDatabase
 import com.bytephant.senior_care.service.location.GmsLocationClient
 import com.bytephant.senior_care.service.location.LocationClient
@@ -35,6 +35,11 @@ class Container (
         NetworkReplier(messageAPI)
 //        MockReplier()
     }
+    val userMetaLoader : UserMetaLoader by lazy {
+//        NetworkMetaLoader(messageAPI)
+        MockUserMetaLoader()
+    }
+
     val database = Room.databaseBuilder(
         context = context,
         SeniorCareDatabase::class.java,
