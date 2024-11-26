@@ -113,6 +113,7 @@ class MainActivity : ComponentActivity() {
                 val historyViewModel: HistoryViewModel= viewModel(factory = HistoryViewModel.Factory)
                 NavigationDrawer(
                     navController = navController,
+                    statusCollector = container.statusCollector,
                     chatbotAgent = container.chatBotAgent
                 ) { innerPadding ->
                     NavHost(

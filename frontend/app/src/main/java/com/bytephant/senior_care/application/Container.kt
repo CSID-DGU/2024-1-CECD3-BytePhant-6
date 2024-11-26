@@ -13,6 +13,8 @@ import com.bytephant.senior_care.domain.replier.NetworkReplier
 import com.bytephant.senior_care.domain.replier.Replier
 import com.bytephant.senior_care.domain.repository.LocationRepository
 import com.bytephant.senior_care.domain.repository.RoomLocationRepository
+import com.bytephant.senior_care.domain.status.StatusCollector
+import com.bytephant.senior_care.domain.status.StatusCollectorImpl
 import com.bytephant.senior_care.domain.user.loader.MockUserMetaLoader
 import com.bytephant.senior_care.domain.user.loader.UserMetaLoader
 import com.bytephant.senior_care.service.database.SeniorCareDatabase
@@ -54,6 +56,14 @@ class Container (
         GmsLocationClient(
             context = context,
             LocationServices.getFusedLocationProviderClient(context)
+        )
+    }
+
+    val statusCollector: StatusCollector by lazy {
+        StatusCollectorImpl(
+            5.0,
+            locationClient=locationClient,
+            locationRepository = locationRepository
         )
     }
 

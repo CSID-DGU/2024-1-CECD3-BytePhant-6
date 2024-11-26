@@ -46,12 +46,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.bytephant.senior_care.domain.ChatbotAgent
+import com.bytephant.senior_care.domain.status.StatusCollector
 import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationDrawer(
     navController: NavHostController,
     chatbotAgent: ChatbotAgent,
+    statusCollector: StatusCollector,
     body: @Composable (padding: PaddingValues) -> Unit,
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -133,7 +135,7 @@ fun NavigationDrawer(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Button(
-                            onClick = { /*TODO*/ },
+                            onClick = { scope.launch { statusCollector.updateHomeLocation() } },
                             colors = ButtonColors(
                                 containerColor = Color.Transparent,
                                 contentColor = Color.Black,
