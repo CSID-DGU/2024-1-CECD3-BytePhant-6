@@ -68,7 +68,7 @@ fun ChatScreen(
                     detectTapGestures(onTap = { focusManager.clearFocus() })
                 }
         ) {
-            ㅍ(
+            ChatBubbleList(
                 listState = listState,
                 messages = dialogue.messageList
             )
