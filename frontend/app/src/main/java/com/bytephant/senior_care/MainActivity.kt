@@ -34,6 +34,8 @@ import com.bytephant.senior_care.ui.routing.NavigationDrawer
 import com.bytephant.senior_care.ui.routing.TopBar
 import com.bytephant.senior_care.ui.screen.chat.ChatScreen
 import com.bytephant.senior_care.ui.screen.chat.ChatViewModel
+import com.bytephant.senior_care.ui.screen.history.HistoryScreen
+import com.bytephant.senior_care.ui.screen.history.HistoryViewModel
 import com.bytephant.senior_care.ui.screen.home.HomeScreen
 import com.bytephant.senior_care.ui.screen.home.HomeViewModel
 import com.bytephant.senior_care.ui.theme.SeniorcareTheme
@@ -108,13 +110,14 @@ class MainActivity : ComponentActivity() {
                 val navController : NavHostController = rememberNavController()
                 val chatViewModel: ChatViewModel= viewModel(factory = ChatViewModel.Factory)
                 val homeViewModel: HomeViewModel= viewModel(factory = HomeViewModel.Factory)
+                val historyViewModel: HistoryViewModel= viewModel(factory = HistoryViewModel.Factory)
                 NavigationDrawer(
                     navController = navController,
                     chatbotAgent = container.chatBotAgent
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = AppScreenType.HOME.name,
+                        startDestination = AppScreenType.HISTORY.name,
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = AppScreenType.CHAT.name) {
@@ -123,6 +126,11 @@ class MainActivity : ComponentActivity() {
                         composable(route= AppScreenType.HOME.name) {
                             HomeScreen(
                                 homeViewModel,
+                            )
+                        }
+                        composable(route= AppScreenType.HISTORY.name) {
+                            HistoryScreen(
+                                historyViewModel
                             )
                         }
                     }
