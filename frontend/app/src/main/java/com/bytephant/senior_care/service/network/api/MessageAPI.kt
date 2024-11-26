@@ -2,7 +2,9 @@ package com.bytephant.senior_care.service.network.api
 
 import kotlinx.serialization.Serializable
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 @Serializable
 data class InitMessageRes(
@@ -41,6 +43,25 @@ data class InterestConfirmReq(
     val interest_id: String
 )
 
+@Serializable
+data class UserInterestRes(
+    val keyword: String,
+    val count: Int
+)
+
+@Serializable
+data class UserMemoryRes(
+    val date: String,
+    val diary: List<String>
+)
+
+@Serializable
+data class UserMetaRes(
+    val memory: List<UserMemoryRes>,
+    val interests: List<UserInterestRes>,
+    val recentSummary: List<String>
+)
+
 interface MessageAPI {
     @POST("conversation/first")
     suspend fun getInitMessage(@Body req: InitMessageReq) : InitMessageRes
@@ -50,4 +71,6 @@ interface MessageAPI {
     suspend fun confirmQuestion(@Body req: QuestionConfirmReq)
     @POST("mark/interest")
     suspend fun confirmInterest(@Body req: InterestConfirmReq)
+    @GET("demo/{user_id}")
+    suspend fun getDemo(@Path("user_id") userId: String): UserMetaRes
 }
