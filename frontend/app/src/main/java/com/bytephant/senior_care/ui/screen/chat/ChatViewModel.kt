@@ -29,17 +29,15 @@ class ChatViewModel(
     val agentState = chatbotAgent.agentStatus
 
     fun sendQuestion(sentence: String) {
-        if (dialogueState.value.isStarted) {
-            val userMessage = messageReceiver.read(sentence);
-            dialogueHolder.appendMessage(userMessage)
-            _uiState.update { currentState ->
-                currentState.copy(
-                    inputText = "",
-                )
-            }
-            viewModelScope.launch {
-                chatbotAgent.reply(userMessage)
-            }
+        val userMessage = messageReceiver.read(sentence);
+        dialogueHolder.appendMessage(userMessage)
+        _uiState.update { currentState ->
+            currentState.copy(
+                inputText = "",
+            )
+        }
+        viewModelScope.launch {
+            chatbotAgent.reply(userMessage)
         }
     }
 
