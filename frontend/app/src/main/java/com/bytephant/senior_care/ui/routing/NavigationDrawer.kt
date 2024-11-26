@@ -1,7 +1,13 @@
 package com.bytephant.senior_care.ui.routing
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,6 +21,8 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -82,36 +91,62 @@ fun NavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
                 Spacer(modifier = Modifier.height(16.dp))
-                items.forEachIndexed { index, item ->
-                    NavigationDrawerItem(
-                        label = {
-                            Text(
-                                text = item.title,
-                                fontSize = 28.sp
+                Column(
+                    modifier = Modifier.fillMaxHeight(0.95f),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column {
+                        items.forEachIndexed { index, item ->
+                            NavigationDrawerItem(
+                                label = {
+                                    Text(
+                                        text = item.title,
+                                        fontSize = 28.sp
+                                    )
+                                },
+                                selected = index == selectedItemIndex,
+                                onClick = {
+                                    navController.navigate(item.route.name)
+                                    selectedItemIndex = index
+                                    scope.launch { drawerState.close() }
+                                },
+                                icon = {
+                                    Icon(
+                                        imageVector =
+                                            if (index == selectedItemIndex) {
+                                                item.selectedIcon
+                                            } else item.unselectedIcon,
+                                        tint = MaterialTheme.colorScheme.tertiary,
+                                        contentDescription = item.title
+                                    )
+                                },
+                                colors = NavigationDrawerItemDefaults.colors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.secondary
+                                ),
+                                modifier = Modifier
+                                    .padding(NavigationDrawerItemDefaults.ItemPadding)
                             )
-                        },
-                        selected = index == selectedItemIndex,
-                        onClick = {
-                            navController.navigate(item.route.name)
-                            selectedItemIndex = index
-                            scope.launch { drawerState.close() }
-                        },
-                        icon = {
-                            Icon(
-                                imageVector =
-                                    if (index == selectedItemIndex) {
-                                        item.selectedIcon
-                                    } else item.unselectedIcon,
-                                tint = MaterialTheme.colorScheme.tertiary,
-                                contentDescription = item.title
-                            )
-                        },
-                        colors = NavigationDrawerItemDefaults.colors(
-                            selectedContainerColor = MaterialTheme.colorScheme.secondary
-                        ),
-                        modifier = Modifier
-                            .padding(NavigationDrawerItemDefaults.ItemPadding)
-                    )
+                        }
+                    }
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            onClick = { /*TODO*/ },
+                            colors = ButtonColors(
+                                containerColor = Color.Transparent,
+                                contentColor = Color.Black,
+                                disabledContainerColor = Color.Transparent,
+                                disabledContentColor = Color.Black,
+                            ),
+                            modifier = Modifier
+                                .background(Color.Transparent)
+                                .fillMaxWidth(0.9f),
+                        ) {
+                            Text(text = "현재 위치를 집으로 설정하기")
+                        }
+                    }
                 }
             }
         },
