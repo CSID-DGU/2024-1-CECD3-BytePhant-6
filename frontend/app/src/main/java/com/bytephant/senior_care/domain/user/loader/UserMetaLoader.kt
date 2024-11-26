@@ -1,4 +1,4 @@
-package com.bytephant.senior_care.domain.user
+package com.bytephant.senior_care.domain.user.loader
 
 import com.bytephant.senior_care.ui.screen.history.DailyHistory
 

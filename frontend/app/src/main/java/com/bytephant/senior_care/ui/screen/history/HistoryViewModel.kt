@@ -1,6 +1,5 @@
 package com.bytephant.senior_care.ui.screen.history
 
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -8,9 +7,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.bytephant.senior_care.application.SeniorCareApplication
-import com.bytephant.senior_care.domain.user.MockUserMetaLoader
-import com.bytephant.senior_care.domain.user.UserMetaLoader
-import com.bytephant.senior_care.ui.screen.home.HomeViewModel
+import com.bytephant.senior_care.domain.user.loader.MockUserMetaLoader
+import com.bytephant.senior_care.domain.user.loader.UserMetaLoader
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.StateFlow
