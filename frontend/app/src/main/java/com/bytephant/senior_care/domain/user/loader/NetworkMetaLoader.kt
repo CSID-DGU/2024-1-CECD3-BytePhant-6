@@ -23,6 +23,7 @@ class NetworkMetaLoader(
         val interest = messageAPI.getDemo("abcdef").interests
         return interest
             .sortedBy { it.count }
+            .reversed()
             .map { FavoriteKeyword(it.keyword, it.count) }
     }
 }

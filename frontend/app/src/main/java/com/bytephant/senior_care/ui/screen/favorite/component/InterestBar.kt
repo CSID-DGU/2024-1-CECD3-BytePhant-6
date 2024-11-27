@@ -16,11 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.bytephant.senior_care.domain.data.FavoriteKeyword
 
 @Composable
 fun InterestBar(
-    interest: String,
-    importance: Int,
+    favoriteKeyword: FavoriteKeyword,
     maxImportance: Int,
     modifier: Modifier = Modifier
 ) {
@@ -33,14 +33,14 @@ fun InterestBar(
             modifier = Modifier.padding(bottom = 8.dp)
         ) {
             Text(
-                text = interest,
+                text = favoriteKeyword.name,
                 modifier = Modifier
                     .weight(1.0f)
                     .padding(start = 8.dp),
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = importance.toString(),
+                text = favoriteKeyword.score.toString(),
                 modifier = Modifier.padding(end = 8.dp),
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -56,7 +56,7 @@ fun InterestBar(
                 Box(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .fillMaxWidth(importance / (maxImportance * 1.0f))
+                        .fillMaxWidth(favoriteKeyword.score / (maxImportance * 1.0f))
                         .clip(RoundedCornerShape(8.dp))
                         .background(MaterialTheme.colorScheme.primary)
                 )
@@ -70,8 +70,7 @@ fun InterestBar(
 @Composable
 fun InterestProgressBarPreview() {
     InterestBar(
-        interest = "Technology",
-        importance = 45,
+        favoriteKeyword = FavoriteKeyword("Technology", 45),
         maxImportance = 50,
     )
 }

@@ -34,6 +34,8 @@ import com.bytephant.senior_care.ui.routing.NavigationDrawer
 import com.bytephant.senior_care.ui.routing.TopBar
 import com.bytephant.senior_care.ui.screen.chat.ChatScreen
 import com.bytephant.senior_care.ui.screen.chat.ChatViewModel
+import com.bytephant.senior_care.ui.screen.favorite.FavoriteScreen
+import com.bytephant.senior_care.ui.screen.favorite.FavoriteViewModel
 import com.bytephant.senior_care.ui.screen.history.HistoryScreen
 import com.bytephant.senior_care.ui.screen.history.HistoryViewModel
 import com.bytephant.senior_care.ui.screen.home.HomeScreen
@@ -111,6 +113,7 @@ class MainActivity : ComponentActivity() {
                 val chatViewModel: ChatViewModel= viewModel(factory = ChatViewModel.Factory)
                 val homeViewModel: HomeViewModel= viewModel(factory = HomeViewModel.Factory)
                 val historyViewModel: HistoryViewModel= viewModel(factory = HistoryViewModel.Factory)
+                val favoriteViewModel: FavoriteViewModel= viewModel(factory = FavoriteViewModel.Factory)
                 NavigationDrawer(
                     navController = navController,
                     statusCollector = container.statusCollector,
@@ -118,7 +121,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = AppScreenType.HISTORY.name,
+                        startDestination = AppScreenType.KEYWORD.name,
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = AppScreenType.CHAT.name) {
@@ -133,6 +136,9 @@ class MainActivity : ComponentActivity() {
                             HistoryScreen(
                                 historyViewModel
                             )
+                        }
+                        composable(route= AppScreenType.KEYWORD.name) {
+                            FavoriteScreen(favoriteViewModel = favoriteViewModel)
                         }
                     }
                 }
