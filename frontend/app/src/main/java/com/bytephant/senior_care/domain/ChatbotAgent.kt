@@ -37,9 +37,9 @@ class ChatbotAgent(
     suspend fun reply(userMessage: BaseMessage) : BaseMessage {
         _agentStatus.update { AgentStatus.THINKING }
         val reply = replier.reply(userMessage.message)
-        val res = BaseMessage(reply.message, false)
+        val res = BaseMessage(reply.message, false, reply.score <= 0)
         val topic = contextMemory.getTopic()
-        if (reply.score > 0 && topic != null) {
+        if (!res.isFinish && topic != null) {
             replier.confirmReply(topic)
             contextMemory.reset()
         }
