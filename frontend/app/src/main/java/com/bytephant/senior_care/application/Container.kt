@@ -16,6 +16,7 @@ import com.bytephant.senior_care.domain.repository.RoomLocationRepository
 import com.bytephant.senior_care.domain.status.StatusCollector
 import com.bytephant.senior_care.domain.status.StatusCollectorImpl
 import com.bytephant.senior_care.domain.user.loader.MockUserMetaLoader
+import com.bytephant.senior_care.domain.user.loader.NetworkMetaLoader
 import com.bytephant.senior_care.domain.user.loader.UserMetaLoader
 import com.bytephant.senior_care.service.database.SeniorCareDatabase
 import com.bytephant.senior_care.service.location.GmsLocationClient
@@ -38,8 +39,8 @@ class Container (
 //        MockReplier()
     }
     val userMetaLoader : UserMetaLoader by lazy {
-//        NetworkMetaLoader(messageAPI)
-        MockUserMetaLoader()
+        NetworkMetaLoader(messageAPI)
+//        MockUserMetaLoader()
     }
 
     val database = Room.databaseBuilder(
