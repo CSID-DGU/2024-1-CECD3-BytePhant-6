@@ -1,5 +1,6 @@
 package com.bytephant.senior_care.domain.user.loader
 
+import com.bytephant.senior_care.domain.data.FavoriteKeyword
 import com.bytephant.senior_care.service.network.api.MessageAPI
 import com.bytephant.senior_care.ui.screen.history.DailyHistory
 import java.time.LocalDate
@@ -16,5 +17,12 @@ class NetworkMetaLoader(
             val localDate = LocalDate.parse(it.date, formatter)
             DailyHistory(localDate, it.diary)
         }
+    }
+
+    override suspend fun loadKeyword(): List<FavoriteKeyword> {
+        val interest = messageAPI.getDemo("abcdef").interests
+        return interest
+            .sortedBy { it.count }
+            .map { FavoriteKeyword(it.keyword, it.count) }
     }
 }
