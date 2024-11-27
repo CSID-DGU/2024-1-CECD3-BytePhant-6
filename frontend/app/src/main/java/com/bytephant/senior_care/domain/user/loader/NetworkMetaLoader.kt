@@ -9,11 +9,11 @@ import java.time.format.DateTimeFormatter
 class NetworkMetaLoader(
     private val messageAPI : MessageAPI
 ) : UserMetaLoader {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd")
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     override suspend fun loadHistory(): List<DailyHistory> {
         val memory = messageAPI.getDemo("abcdef").memory
-        return memory.map { it->
+        return memory.map {
             val localDate = LocalDate.parse(it.date, formatter)
             DailyHistory(localDate, it.diary)
         }
