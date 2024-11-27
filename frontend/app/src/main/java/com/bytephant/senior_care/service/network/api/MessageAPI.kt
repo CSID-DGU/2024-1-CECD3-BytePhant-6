@@ -59,7 +59,7 @@ data class UserMemoryRes(
 data class UserMetaRes(
     val memory: List<UserMemoryRes>,
     val interests: List<UserInterestRes>,
-    val recentSummary: List<String>
+    val summary: List<String>
 )
 
 interface MessageAPI {
