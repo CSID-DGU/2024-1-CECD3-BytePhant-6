@@ -73,39 +73,5 @@ fun ChatScreen(
                 messages = dialogue.messageList
             )
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            OutlinedTextField(
-                value = uiState.inputText,
-                onValueChange = { chatViewModel.updateInputText(it) },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 16.dp)
-                    .align(Alignment.Bottom)
-                    .focusRequester(focusRequester),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                ),
-                enabled = inputEnable,
-            )
-            Button(
-                onClick = {
-                    if (uiState.inputText.isNotBlank()) {
-                        chatViewModel.sendQuestion(uiState.inputText)
-                    }
-                },
-                enabled = inputEnable,
-                modifier = Modifier
-                    .padding(end = 16.dp)
-            ) {
-                Text(
-                    text="보내기",
-                )
-            }
-        }
     }
 }
